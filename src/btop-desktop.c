@@ -4,7 +4,7 @@
 #include "rgba.h"
 
 static void spawn_child_process (VteTerminal *terminal) {
-    char *command_argv[2] = { "neofetch", NULL };
+    char *command_argv[2] = { "btop", NULL };
 
     vte_terminal_spawn_async (
         VTE_TERMINAL (terminal),
@@ -25,21 +25,15 @@ static void spawn_child_process (VteTerminal *terminal) {
 
 static void activate (GtkApplication *app, gpointer user_data) {
     GtkWidget *window;
-    GtkWidget *box;
     GtkWidget *terminal;
 
     // Create a new window
     window = gtk_application_window_new (app);
-    gtk_window_set_title (GTK_WINDOW (window), "Neofetch Desktop");
+    gtk_window_set_title (GTK_WINDOW (window), "BTop Desktop");
 
     // Prefer Dark Theme
     g_object_set(gtk_settings_get_default(),
                 "gtk-application-prefer-dark-theme", TRUE, NULL);
-
-    box = gtk_box_new (GTK_ORIENTATION_VERTICAL, 0);
-    gtk_widget_set_halign (box, GTK_ALIGN_CENTER);
-    gtk_widget_set_valign (box, GTK_ALIGN_CENTER);
-    gtk_window_set_child (GTK_WINDOW (window), box);    
 
     // Create a new VTE terminal widget
     terminal = vte_terminal_new ();
@@ -77,14 +71,11 @@ static void activate (GtkApplication *app, gpointer user_data) {
 
     gtk_widget_set_vexpand (terminal, TRUE);
     gtk_widget_set_hexpand (terminal, TRUE);
-    gtk_box_append (GTK_BOX (box), terminal);
+    gtk_window_set_child (GTK_WINDOW (window), terminal);
     spawn_child_process (VTE_TERMINAL (terminal));
 
     // Show the window
     gtk_window_present (GTK_WINDOW (window));
-
-    // Disable window resize
-    gtk_window_set_resizable (GTK_WINDOW (window), FALSE);
 }
 
 int main (int argc, char *argv[]) {
@@ -92,7 +83,7 @@ int main (int argc, char *argv[]) {
     int status;
 
     // Create a new GTK application
-    app = gtk_application_new ("org.vandine.ken.neofetch", G_APPLICATION_NON_UNIQUE);
+    app = gtk_application_new ("org.vandine.ken.btop", G_APPLICATION_NON_UNIQUE);
 
     // Connect the activate function to the activate signal
     g_signal_connect(app, "activate", G_CALLBACK (activate), NULL);

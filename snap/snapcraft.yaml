@@ -1,22 +1,41 @@
-name: neofetch-desktop
+name: btop-desktop
 base: core22
 version: '0.1'
-summary: Neofetch Desktop
+summary: BTop Desktop
 description: |
-  Shows Linux System Information with Distribution Logo
-icon: data/neofetch-desktop.png
+ Modern and colorful command line resource monitor that shows usage and stats
+ btop is a modern and colorful command line resource monitor that shows
+ usage and stats for processor, memory, disks, network and processes.
+ btop features:
+  - Easy to use, with a game inspired menu system.
+  - Full mouse support, all buttons with a highlighted key is clickable
+  and mouse scroll works in process list and menu boxes.
+  - Fast and responsive UI with UP, DOWN keys process selection.
+  - Function for showing detailed stats for selected process.
+  - Ability to filter processes.
+  - Easy switching between sorting options.
+  - Tree view of processes.
+  - Send any signal to selected process.
+  - UI menu for changing all config file options.
+  - Auto scaling graph for network usage.
+  - Shows IO activity and speeds for disks
+  - Battery meter
+  - Selectable symbols for the graphs
+  - Custom presets
+  - And more...
+
+icon: data/btop.svg
 grade: stable
 confinement: strict
+architectures:
+  - build-on: amd64
+  - build-on: arm64
 
 parts:
-  neofetch:
-    plugin: make
-    source: https://github.com/hykilpikonna/hyfetch.git
+  btop:
+    plugin: nil
     stage-packages:
-      - bind9-dnsutils
-      - pciutils
-    prime:
-      - -usr/lib/*/libisccc*.so
+      - btop
         
   vte:
     source: https://gitlab.gnome.org/GNOME/vte.git
@@ -43,21 +62,21 @@ parts:
     prime:
       - usr/lib/*/libvte*gtk4.so.*
         
-  neofetch-desktop:
+  btop-desktop:
     after: [ vte ]
     plugin: meson
     source: .
     meson-parameters:
       - --prefix=/usr
     prime:
-      - usr/bin/neofetch-desktop
-      - usr/share/applications/neofetch-desktop.desktop
+      - usr/bin/btop-desktop
+      - usr/share/applications/btop-desktop.desktop
       - usr/share/icons
 
   # Find files provided by the base and platform snap and ensure they aren't
   # duplicated in this snap
   cleanup:
-    after: [neofetch, neofetch-desktop]
+    after: [btop, btop-desktop]
     plugin: nil
     build-snaps: [core22, gtk-common-themes, gnome-42-2204]
     override-prime: |
@@ -67,11 +86,14 @@ parts:
       done
 
 apps:
-  neofetch-desktop:
+  btop-desktop:
     extensions: [ gnome ]
-    command: usr/bin/neofetch-desktop
-    desktop: usr/share/applications/neofetch-desktop.desktop
+    command: usr/bin/btop-desktop
+    desktop: usr/share/applications/btop-desktop.desktop
     plugs:
       - hardware-observe
       - system-observe
+      - process-control
       - network
+      - network-control
+      - mount-observe

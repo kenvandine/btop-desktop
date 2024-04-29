@@ -1,7 +1,7 @@
 [Desktop Entry]
-Name=Neofetch Desktop
+Name=BTop Desktop
 Exec=@BIN_NAME@
-Icon=neofetch-desktop.png
+Icon=btop-desktop.svg
 Keywords=system;
 Terminal=false
 Type=Application

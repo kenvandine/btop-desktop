@@ -2,8 +2,8 @@ src_datadir = meson.current_source_dir()
 
 desktop_utils = find_program('desktop-file-validate', required: false)
 
-desktop_filename = 'neofetch-desktop.desktop.in.in'
-icon_filename = 'neofetch-desktop.png'
+desktop_filename = 'btop-desktop.desktop.in.in'
+icon_filename = 'btop.svg'
 
 desktop_file = i18n.merge_file(
             input: configure_file(
@@ -11,7 +11,7 @@ desktop_file = i18n.merge_file(
                            output: '@BASENAME@',
                            configuration: conf
                    ),
-           output: 'neofetch-desktop.desktop',
+           output: 'btop-desktop.desktop',
              type: 'desktop',
            po_dir: '../po',
           install: true,
