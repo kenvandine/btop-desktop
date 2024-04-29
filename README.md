@@ -1,3 +1,3 @@
-Simple GTK4 app to display the output of neofetch
+Simple GTK4 app to display the output of btop
 
-![Neofetch Desktop](screenshot.png)
+![BTop Desktop](screenshot.png)

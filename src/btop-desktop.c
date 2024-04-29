@@ -3,6 +3,16 @@
 #include <vte/vte.h>
 #include "rgba.h"
 
+static void on_terminal_spawn_async(VteTerminal *terminal,
+                                    GPid pid,
+                                    GError *error,
+                                    gpointer user_data) {
+
+    // Destroy the window when the child exits
+    GtkWindow *window = gtk_widget_get_parent(GTK_WIDGET(terminal));
+    gtk_window_destroy(GTK_WINDOW(window));
+}
+
 static void spawn_child_process (VteTerminal *terminal) {
     char *command_argv[2] = { "btop", NULL };
 
@@ -37,6 +47,9 @@ static void activate (GtkApplication *app, gpointer user_data) {
 
     // Create a new VTE terminal widget
     terminal = vte_terminal_new ();
+
+    // Connect the "spawn-async" signal to the callback function
+    g_signal_connect(terminal, "child-exited", G_CALLBACK(on_terminal_spawn_async), NULL);
 
     GdkRGBA fgcolor;
     GdkRGBA bgcolor;
