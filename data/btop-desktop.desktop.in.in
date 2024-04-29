@@ -1,7 +1,7 @@
 [Desktop Entry]
 Name=BTop Desktop
 Exec=@BIN_NAME@
-Icon=btop-desktop.svg
+Icon=btop.svg
 Keywords=system;
 Terminal=false
 Type=Application
