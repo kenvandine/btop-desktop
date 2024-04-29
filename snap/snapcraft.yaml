@@ -33,9 +33,14 @@ architectures:
 
 parts:
   btop:
-    plugin: nil
-    stage-packages:
-      - btop
+    source: https://github.com/aristocratos/btop
+    source-type: git
+    plugin: make
+    make-parameters:
+      - CXX=g++-11
+      - PREFIX=/usr
+      - STATIC=true
+      - ADDFLAGS="-D SNAPPED"
         
   vte:
     source: https://gitlab.gnome.org/GNOME/vte.git
